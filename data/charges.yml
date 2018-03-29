@@ -1,0 +1,7 @@
+charges_salariales:
+  2018:
+  - { floor: 0, rate: .22 }
+
+charges_patronales:
+  2018:
+  - { floor: 0, rate: .42 }

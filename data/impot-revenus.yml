@@ -1,0 +1,23 @@
+# Article 2 LOI n° 2016-1917 du 29 décembre 2016 de finances pour 2017 (1)
+# https://www.legifrance.gouv.fr/affichTexte.do?cidTexte=JORFTEXT000033734169&dateTexte=&categorieLien=id
+
+# Barème officiel pour l'année en cours (2018, portant sur les revenus de l'année 2017)
+# https://www.service-public.fr/particuliers/vosdroits/F1419
+
+# Page wikipedia reprenant l'ensemble des barèmes pour les 10 dernières années
+# https://fr.wikipedia.org/wiki/Bar%C3%A8mes_de_l%27imp%C3%B4t_sur_le_revenu_en_France
+
+impot_revenus:
+  2018: # Portant sur les revenus de l'année 2017
+  - { floor: 0,      rate: 0    }
+  - { floor: 9807,   rate: 0.14 }
+  - { floor: 27086,  rate: 0.3  }
+  - { floor: 72617,  rate: 0.41 }
+  - { floor: 153783, rate: 0.45 }
+
+  2017: # Portant sur les revenus de l'année 2016
+  - { floor: 0,      rate: 0    }
+  - { floor: 9701,   rate: 0.14 }
+  - { floor: 26819,  rate: 0.3  }
+  - { floor: 71899,  rate: 0.41 }
+  - { floor: 152261, rate: 0.45 }

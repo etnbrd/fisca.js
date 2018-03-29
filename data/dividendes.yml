@@ -1,0 +1,7 @@
+dividend_sasu:
+  2018:
+  - { floor: 0, rate: 0.172 }
+
+dividend_eurl:
+  2018:
+  - { floor: 0, rate: 0.4   }
