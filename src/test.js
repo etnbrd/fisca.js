@@ -1,8 +1,18 @@
 import { fiscalYear } from './exercice';
 import { structure } from './structure';
 
-console.log(">> ", structure);
+
+// TODO remove this
+import { asTree } from 'treeify';
+
+const treeify = obj => asTree(obj, true);
+
+console.log(" ====== STRUCTURE ====== ");
+console.log(treeify(structure));
 
 const result = fiscalYear(structure);
 
-console.log(result);
+
+
+console.log(" ====== RESULT ====== ");
+console.log(treeify(result));

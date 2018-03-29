@@ -5,11 +5,9 @@ const revenues = [{
 
 const costs = [{
   label: 'consommables',
-  type: 'cost',
   amount: 5000
 }, {
   label: 'frais de bouche',
-  type: 'cost',
   amount: 5000
 }]
 

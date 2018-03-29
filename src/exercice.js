@@ -26,166 +26,95 @@ const dividend_tax = {
   EURL: dividend_eurl
 }
 
+/* TODO
+  These two switches are specific and belongs to the SASU status.
+ */
 
-// ACCRE
-// https://www.service-public.fr/particuliers/vosdroits/F11677
+const inject_group_switch = {
+  external_expenses: (structure, outcome) => structure.costs.map(cost => ({
+    id: 'expense',
+    type: 'expense',
+    ...cost
+  })),
 
-// ACCRE Micro-entreprises
-// https://www.service-public.fr/professionnels-entreprises/vosdroits/F32318
+  salaries: (structure, outcome) => structure.employees.map(employee => ({
+    ...Outcomes.salary,
+    context: { employee }
+  })),
 
-// We have the concept of a regressive tax by income, which is a super set of a flat tax
-// We need the concept of a regressive tax by time, which is a super set of a regressive tax
-// -> for this period of time, this specific regressive tax applies ...
-// We need taxes that behave according to other external factors (though it could be a factory tax: a tax that returns a tax)
-
-function sum_group(outcomes) {
-  return outcomes.reduce((sum, outcome) => sum + outcome.amount, 0);
+  default: (structure, outcome) =>  outcome.group.map(({ id, context }) => ({
+    ...Outcomes[id],
+    context
+  }))
 }
-
-function compute_costs(structure) {
-  const salaries = compute_salaries(structure);
-
-  const group = [
-    ...structure.costs,
-    salaries
-  ];
-
-  const amount = sum_group(group);
-
-  return {
-    label: 'Coûts',
-    id: 'costs',
-    type: 'group',
-    amount,
-    group
-  }
-}
-
-function compute_salaries({ status, employees }) {
-
-  return employees.reduce((result, employee) => {
-    const salary = compute_salary({ status }, employee);
-
-    return {
-      ...result,
-      amount: result.amount + salary.amount,
-      group: [
-        ...result.group,
-        salary
-      ]
-    };
-  }, {
-    label: 'Salaires',
-    type: 'group',
-    amount: 0,
-    group: []
-  })
-}
-
-
-function compute_salary({ status }, { label, gross_monthly_salary }) {
-
-  const {
-    outcome: net_monthly_salary,
-    tax: monthly_charges_salariales
-  } = charges_salariales.compute(gross_monthly_salary);
-
-  const {
-    tax: monthly_charges_patronales
-  } = charges_patronales.compute(gross_monthly_salary);
-
-  return {
-    label: 'Salaire [ ' + label + ' ]',
-    type: 'group',
-    amount: net_monthly_salary * 12
-          + monthly_charges_salariales * 12
-          + monthly_charges_patronales * 12,
-    group: [{
-      label: 'charges patronale [ ' + label + ' ]',
-      type: 'tax',
-      amount: monthly_charges_patronales * 12
-    }, {
-      label: 'salaire brut [ ' + label + ' ]',
-      type: 'group',
-      amount: net_monthly_salary * 12
-            + monthly_charges_salariales * 12,
-      group: [{
-        label: 'charges salariales',
-        type: 'tax',
-        amount: monthly_charges_salariales * 12
-      }, {
-        label: 'salaire net [ ' + label + ' ]',
-        type: 'salary',
-        amount: net_monthly_salary * 12
-      }]
-    }]
-  };
-}
-
 
 const compute_amount_switch = {
+  salary: (structure, income, outcome, { employee }) => employee.gross_monthly_salary * 12,
+  charges_patronales: (structure, income) => charges_patronales.compute(income).tax,
+  charges_salariales: (structure, income) => charges_salariales.compute(income).tax,
   impot_societes: (structure, income) => impot_societes.compute(income).tax,
   dividend_tax: ({ status }, income) => dividend_tax[status].compute(income).tax,
   benefit_net: ({ distributeDividend }, income) => distributeDividend(income).to_dividend
 }
 
 
-function compute_amount(structure, income, outcome) {
+
+function inject_group(structure, outcome) {
+  return (inject_group_switch[outcome.id] || inject_group_switch.default)(structure, outcome);
+}
+
+function compute_amount(structure, income, outcome, context) {
+  if (outcome.amount) return outcome.amount;
   const compute = compute_amount_switch[outcome.id];
   return compute
-    ? compute(structure, income)
+    ? compute(structure, income, outcome, context)
     : income
 }
 
-const compute_outcome_switch = {
-  costs: compute_costs
+function reduce_group(structure, income, outcome, parent_context) {
+
+  return inject_group(structure, outcome)
+    .reduce(function({ sum, group }, outcome) {
+      const child = reduce_outcome(structure, income, outcome, outcome.context);
+      return {
+        sum: sum + child.amount,
+        group: [ ...group, child ]
+      }
+    }, {
+      sum: 0,
+      group: []
+    })
 }
 
-function compute_outcome(structure, income, outcome) {
-  const compute = compute_outcome_switch[outcome.id];
-  return compute
-    ? compute(structure, income, outcome)
-    : default_compute(structure, income, outcome)
-}
+function reduce_outcome(structure, income, outcome, context) {
 
-function reduce_group(structure, income, outcome) {
-  return outcome.group.reduce(function({ sum, group }, id) {
-    const outcome = reduce_outcome(structure, income, Outcomes[id]);
-    return {
-      sum: sum + outcome.amount,
-      group: [ ...group, outcome ]
-    }
-  }, {
-    sum: 0,
-    group: []
-  })
-}
-
-function reduce_outcome(structure, income, outcome) {
-
-  if (outcome.id === 'costs')
-    return compute_costs(structure);
-
-  const available_income = compute_amount(structure, income, outcome);
+  const available_income = compute_amount(structure, income, outcome, context);
 
   if (outcome.type === 'group') {
-    const { sum, group } = reduce_group(structure, available_income, outcome);
+    const { sum, group } = reduce_group(structure, available_income, outcome, context);
 
-    const output = outcome.output
-      ? reduce_outcome(structure, income - sum, Outcomes[outcome.output])
-      : undefined;
+    if (outcome.output) {
+      const { id } = outcome.output;
+      const output = reduce_outcome(structure, income - sum, Outcomes[id], context);
+
+      return {
+        amount: sum + output.amount,
+        ...outcome,
+        group,
+        output
+      }
+    }
 
     return {
+      amount: sum,
       ...outcome,
-      amount: sum + (output ? output.amount : 0),
-      group,
-      output
+      group
     }
   }
 
   return {
-    ...outcome,
-    amount: available_income
+    amount: available_income,
+    ...outcome
   }
 }
 
