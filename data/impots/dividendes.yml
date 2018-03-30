@@ -1,0 +1,12 @@
+groupe_dividende:
+  dividende_sasu:
+    2018:
+      label: 'Dividendes (SASU)'
+      brackets:
+      - { floor: 0, rate: 0.172 }
+
+  dividende_eurl:
+    2018:
+      label: 'Diviendes (EURL)'
+      brackets:
+      - { floor: 0, rate: 0.4   }

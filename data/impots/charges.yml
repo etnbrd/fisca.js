@@ -1,0 +1,217 @@
+# =============================================================================
+# COTISATION SOCIALES
+# =============================================================================
+
+# ASSIETTES
+
+__defs__: # This block will be excluded when parsing this file
+- &assiette_totale
+  - { floor: 1, rate: 1 }
+
+- &assiette_csg
+  - { floor: 0,      rate: 0.9825 } # 98.25% du salaire total dans la limite de 4 plafond de la sécurité sociale (156 912 €),
+  - { floor: 154464, rate: 1      } # Totalité du salaire au-delà de 154 464 €
+
+- &assiette_1_plafond_securite_sociale
+  - { floor: 0,      rate: 1 } # Dans la limite d’1 plafond de la sécurité sociale (3 269 € de rémunération mensuelle)
+  - { floor: 39228,  rate: 0 } # 3 269 × 12 = 39 228
+
+- &assiette_2_3_plafond_securite_sociale
+  - { floor: 0,      rate: 0 } # Entre 2 et 3 plafond de la sécurité sociale (de 3 269 à 9 807 € de rémunération mensuelle)
+  - { floor: 39228,  rate: 1 } # 3 269 × 12 = 39 228
+  - { floor: 117684, rate: 0 } # 9 807 × 12 = 117 684
+
+- &assiette_2_4_plafond_securite_sociale
+  - { floor: 0,      rate: 0 } # Entre 2 et 4 plafond de la sécurité sociale (de 3 269 à 13 076 € de rémunération mensuelle)
+  - { floor: 39228,  rate: 1 } # 3 269 × 12 = 39 228
+  - { floor: 156912, rate: 0 } # 13 076 × 12 = 156 912
+
+- &assiette_4_plafond_securite_sociale
+  - { floor: 0,      rate: 1 } # Dans la limite de 4 plafonds de la sécurité sociale (13 076 € de rémunération mensuelle)
+  - { floor: 156912, rate: 0 } # 13 076 × 12 = 156 912
+
+- &assiette_4_8_plafond_securite_sociale
+  - { floor: 0,      rate: 0 } # Entre 4 et 8 plafonds de la sécurité sociale (de 13 076 à 26 152 € de rémunération mensuelle)
+  - { floor: 156912, rate: 1 } # 13 076 × 12 = 156 912
+  - { floor: 313824, rate: 0 } # 26 152 × 12 = 313 824
+
+# PART SALARIALE
+
+groupe_charges_salariales:
+  csg:
+    2018:
+      label: Contribution Sociale Généralisée (CSG)
+      base: *assiette_csg
+      brackets:
+      - { floor: 0, rate: 0.075 }
+
+  crds:
+    2018:
+      label: Contribution au remboursement de la dette sociale (CRDS)
+      base: *assiette_csg
+      brackets:
+      - { floor: 0, rate: 0.005 }
+
+  assurance_maladie:
+    2018:
+      label: Assurance maladie
+      base: *assiette_totale
+      brackets:
+      - { floor: 0, rate: 0.0075 }
+
+  assurance_vieillesse_plafond:
+    2018:
+      label: Assurance vieillesse plafonnée
+      base: *assiette_1_plafond_securite_sociale
+      brackets:
+      - { floor: 0, rate: 0.069 }
+
+  assurance_vieillesse:
+    2018:
+      label: Assurance vieillesse déplafonnée
+      base: *assiette_totale
+      brackets:
+      - { floor: 0, rate: 0.0035 }
+
+  assurance_chomage:
+    2018:
+      label: Assurance chômage
+      base: *assiette_4_plafond_securite_sociale
+      brackets:
+      - { floor: 0, rate: 0.024 }
+
+  retraite_compl_non_cadre_trA:
+    2018:
+      label: Retraite complémentaire non cadres. Tranche A
+      base: *assiette_1_plafond_securite_sociale
+      brackets:
+      - { floor: 0, rate: 0.031 }
+
+  retraite_compl_non_cadre_trB:
+    2018:
+      label: Retraite complémentaire non cadres. Tranche B
+      base: *assiette_2_3_plafond_securite_sociale
+      brackets:
+      - { floor: 0, rate: 0.081 }
+
+  retraite_compl_cadre_trA:
+    2018:
+      label: Retraite complémentaire cadres. Tranche A
+      base: *assiette_1_plafond_securite_sociale
+      brackets:
+      - { floor: 0, rate: 0.031 }
+
+  retraite_compl_cadre_trB:
+    2018:
+      label: Retraite complémentaire cadres. Tranche B
+      base: *assiette_2_4_plafond_securite_sociale
+      brackets:
+      - { floor: 0, rate: 0.078 }
+
+  retraite_compl_cadre_trC:
+    2018:
+      label: Retraite complémentaire cadres. Tranche C
+      base: *assiette_4_8_plafond_securite_sociale
+      brackets:
+      - { floor: 0, rate: 0.2055 } # TODO part salariale et patronale, à répartir librement
+
+# PART PATRONALE
+
+groupe_charges_patronales:
+  assurance_maladie:
+    2018:
+      label: Assurance maladie
+      base: *assiette_totale
+      brackets:
+      - { floor: 0, rate: 0.1289 }
+
+  assurance_vieillesse_plafond:
+    2018:
+      label: Assurance vieillesse plafonnée
+      base: *assiette_1_plafond_securite_sociale
+      brackets:
+      - { floor: 0, rate: 0.855 }
+
+  assurance_vieillesse:
+    2018:
+      label: Assurance vieillesse déplafonnée
+      base: *assiette_totale
+      brackets:
+      - { floor: 0, rate: 0.019 }
+
+  allocations_familiales:
+    2018:
+      label: Allocations familiales
+      base: *assiette_totale
+      brackets:
+      - { floor: 0, rate: 0.0525 } # TODO 5,25% (3,45% pour les salaires n’excédant pas 1,6 SMIC)
+
+  aide_logement:
+    2018:
+      label: Aide au logement dans les entreprises de moins de 20 salariés
+      base: *assiette_1_plafond_securite_sociale
+      brackets:
+      - { floor: 0, rate: 0.001 }
+
+  assurance_chomage:
+    2018:
+      label: Assurance chômage
+      base: *assiette_4_plafond_securite_sociale
+      brackets:
+      - { floor: 0, rate: 0.04 }
+
+  fond_garantie_salaires:
+    2018:
+      label: Fonds de garantie des salaires
+      base: *assiette_4_plafond_securite_sociale
+      brackets:
+      - { floor: 0, rate: 0.003 }
+
+  retraite_compl_non_cadre_trA:
+    2018:
+      label: Retraite complémentaire non cadres. Tranche A
+      base: *assiette_1_plafond_securite_sociale
+      brackets:
+      - { floor: 0, rate: 0.0465 }
+
+  retraite_compl_non_cadre_trB:
+    2018:
+      label: Retraite complémentaire non cadres. Tranche B
+      base: *assiette_2_3_plafond_securite_sociale
+      brackets:
+      - { floor: 0, rate: 0.1215 }
+
+  retraite_compl_cadre_trA:
+    2018:
+      label: Retraite complémentaire cadres. Tranche A
+      base: *assiette_1_plafond_securite_sociale
+      brackets:
+      - { floor: 0, rate: 0.0465 }
+
+  retraite_compl_cadre_trB:
+    2018:
+      label: Retraite complémentaire cadres. Tranche B
+      base: *assiette_2_4_plafond_securite_sociale
+      brackets:
+      - { floor: 0, rate: 0.1275 }
+
+  retraite_compl_cadre_trC:
+    2018:
+      label: Retraite complémentaire cadres. Tranche C
+      base: *assiette_4_8_plafond_securite_sociale
+      brackets:
+      - { floor: 0, rate: 0.2055 } # TODO part salariale et patronale, à répartir librement
+
+  assurace_deces:
+    2018:
+      label: Assurance décès
+      base: *assiette_1_plafond_securite_sociale
+      brackets:
+      - { floor: 0, rate: 0.015 }
+
+  formation_professionnelle:
+    2018:
+      label: Formation professionnelle
+      base: *assiette_totale # TODO Masse salariale === l'ensemble des salaires ?
+      brackets:
+      - { floor: 0, rate: 0.01 }

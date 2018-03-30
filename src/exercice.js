@@ -1,71 +1,22 @@
-import Tax from './tax';
-import { taxes } from './data';
+import status from './status';
 
-import * as Outcomes from './sasu';
-
-const defaultDividendDistribution = RatioDividendDistribution(1);
-
-function RatioDividendDistribution(ratio) {
-  return (income) => ({
-    to_dividend: income * ratio,
-    to_liquid: income * (1 - ratio)
-  });
+function inject_outcome(structure, outcome) {
+  return (
+    structure.inject_outcome[outcome.id] ||
+    structure.inject_outcome.default
+  )(structure, outcome);
 }
-
-const {
-  impot_revenu,
-  impot_societes,
-  charges_salariales,
-  charges_patronales,
-  dividend_sasu,
-  dividend_eurl
-} = taxes;
-
-const dividend_tax = {
-  SASU: dividend_sasu,
-  EURL: dividend_eurl
-}
-
-/* TODO
-  These two switches are specific and belongs to the SASU status.
- */
-
-const inject_group_switch = {
-  external_expenses: (structure, outcome) => structure.costs.map(cost => ({
-    id: 'expense',
-    type: 'expense',
-    ...cost
-  })),
-
-  salaries: (structure, outcome) => structure.employees.map(employee => ({
-    ...Outcomes.salary,
-    context: { employee }
-  })),
-
-  default: (structure, outcome) =>  outcome.group.map(({ id, context }) => ({
-    ...Outcomes[id],
-    context
-  }))
-}
-
-const compute_amount_switch = {
-  salary: (structure, income, outcome, { employee }) => employee.gross_monthly_salary * 12,
-  charges_patronales: (structure, income) => charges_patronales.compute(income).tax,
-  charges_salariales: (structure, income) => charges_salariales.compute(income).tax,
-  impot_societes: (structure, income) => impot_societes.compute(income).tax,
-  dividend_tax: ({ status }, income) => dividend_tax[status].compute(income).tax,
-  benefit_net: ({ distributeDividend }, income) => distributeDividend(income).to_dividend
-}
-
-
 
 function inject_group(structure, outcome) {
-  return (inject_group_switch[outcome.id] || inject_group_switch.default)(structure, outcome);
+  return (
+    structure.inject_group[outcome.id] ||
+    structure.inject_group.default
+  )(structure, outcome);
 }
 
 function compute_amount(structure, income, outcome, context) {
   if (outcome.amount) return outcome.amount;
-  const compute = compute_amount_switch[outcome.id];
+  const compute = structure.compute_amount[outcome.id];
   return compute
     ? compute(structure, income, outcome, context)
     : income
@@ -94,8 +45,8 @@ function reduce_outcome(structure, income, outcome, context) {
     const { sum, group } = reduce_group(structure, available_income, outcome, context);
 
     if (outcome.output) {
-      const { id } = outcome.output;
-      const output = reduce_outcome(structure, income - sum, Outcomes[id], context);
+      const pre_output = inject_outcome(structure, outcome.output);
+      const output = reduce_outcome(structure, income - sum, pre_output, context);
 
       return {
         amount: sum + output.amount,
@@ -121,16 +72,16 @@ function reduce_outcome(structure, income, outcome, context) {
 export function fiscalYear(structure) {
 
   const {
-    status,
     revenues,
-    employees,
-    costs,
-    distributeDividend = RatioDividendDistribution(.5)
+    root = 'revenue'
   } = structure;
-
-  structure.distributeDividend = distributeDividend;
 
   const income = revenues.reduce((sum, revenue) => sum + revenue.amount, 0);
 
-  return reduce_outcome(structure, income, Outcomes.revenue);
+  const working_structure = {
+    ...structure,
+    ...status[structure.status]
+  }
+
+  return reduce_outcome(working_structure, income, inject_outcome(working_structure, { id: root }));
 }

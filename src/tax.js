@@ -3,6 +3,8 @@
 // The tax is calculated by applying the rate of each bracket to the
 // corresponding slice in the income.
 
+const default_bracket = { floor: 0, ceil: Infinity, rate: 1 };
+
 class Bracket {
 
   constructor({ floor, rate, ceil }) {
@@ -22,24 +24,64 @@ class Bracket {
 
 }
 
+function fillCeil(brackets) {
+  // From the biggest bracket, cascade the floor of a superior bracket
+  // into the ceil of the next inferior.
+
+  return brackets
+    .sort((a, b) => b.floor - a.floor)
+    .reduce((brackets, inferior) => {
+      const superior = brackets[0];
+      inferior.ceil = superior ? superior.floor : Infinity;
+      return [ inferior, ...brackets ];
+    }, []);
+}
+
+
+function mergeBrackets(a, b) {
+
+  const result = [];
+
+  for (
+    var ba = a.shift(),
+        bb = b.shift(),
+        floor = Math.min(ba.floor, bb.floor);
+        ;
+  ) {
+
+    const ceil = Math.min(ba.ceil, bb.ceil);
+
+    result.push({
+      floor,
+      ceil,
+      rate: ba.rate * bb.rate
+    })
+
+    floor = ceil;
+
+    if (a.length === 0 && b.length === 0)
+      break;
+
+    if (ba.ceil === ceil)
+      ba = a.shift() || default_bracket;
+    if (bb.ceil === ceil)
+      bb = b.shift() || default_bracket;
+  }
+
+  return result;
+}
 
 
 export default class Tax {
 
 
-  constructor(brackets) {
-    // From the biggest bracket, cascade the floor of a superior bracket
-    // into the ceil of the next inferior.
-    this.brackets = brackets
-      .sort((a, b) => b.floor - a.floor)
-      .reduce((brackets, inferior) => {
+  constructor(structure) {
+    const { brackets = [default_bracket], base = [default_bracket] } = structure;
 
-        const superior = brackets[0];
-
-        inferior.ceil = superior ? superior.floor : Infinity;
-
-        return [ new Bracket(inferior), ...brackets ];
-      }, []);
+    this.brackets = mergeBrackets(
+      fillCeil(brackets),
+      fillCeil(base)
+    ).map(bracket => new Bracket(bracket));
   }
 
 

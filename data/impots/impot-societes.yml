@@ -1,0 +1,11 @@
+# https://www.economie.gouv.fr/entreprises/impot-societes-IS
+# https://www.service-public.fr/professionnels-entreprises/vosdroits/F23575
+
+groupe_impot_societes:
+  impot_societes:
+    2017:
+      label: Impôt sur les sociétes
+      brackets:
+      - { floor: 0,      rate: 0.15   }
+      - { floor: 38120,  rate: 0.28   }
+      - { floor: 500000, rate: 0.3333 }

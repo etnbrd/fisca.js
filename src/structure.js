@@ -18,7 +18,7 @@ const employees = [{
 
 export const structure = {
   label: 'mon entreprise',
-  status: 'SASU',
+  status: 'sasu',
   revenues,
   costs,
   employees
