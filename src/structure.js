@@ -13,7 +13,8 @@ const costs = [{
 
 const employees = [{
   label: 'etn',
-  gross_monthly_salary: 3750
+  gross_monthly_salary: 3750,
+  cadre: true
 }]
 
 export const structure = {

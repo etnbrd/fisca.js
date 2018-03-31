@@ -25,11 +25,13 @@ function compute_amount(structure, income, outcome, context) {
 function reduce_group(structure, income, outcome, parent_context) {
 
   return inject_group(structure, outcome)
-    .reduce(function({ sum, group }, outcome) {
-      const child = reduce_outcome(structure, income, outcome, outcome.context);
+    .reduce(function({ sum, group }, child) {
+      const { context: child_context, ...pre_outcome } = child;
+      const context = { ...parent_context, ...child_context };
+      const outcome = reduce_outcome(structure, income, pre_outcome, context);
       return {
-        sum: sum + child.amount,
-        group: [ ...group, child ]
+        sum: sum + outcome.amount,
+        group: [ ...group, outcome ]
       }
     }, {
       sum: 0,

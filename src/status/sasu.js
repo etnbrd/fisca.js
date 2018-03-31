@@ -8,7 +8,10 @@ function RatioDividendDistribution(ratio) {
   });
 }
 
-const defaultDividendDistribution = RatioDividendDistribution(1);
+const defaults = {
+  dividend_distribution: RatioDividendDistribution(1),
+  ratio_salarie_retraite_compl_cadre_trC: .1
+};
 
 const {
   groupe_impot_revenu,
@@ -25,21 +28,21 @@ const inject_outcome = {
 }
 
 const inject_group = {
-  external_expenses: (structure, outcome) => structure.costs.map(cost => ({
+  external_expenses: (structure, outcome) =>
+  structure.costs.map(cost => ({
     id: 'expense',
     type: 'expense',
     ...cost
   })),
 
-  salaries: (structure, outcome) => structure.employees.map(employee => ({
+  salaries: (structure, outcome) =>
+  structure.employees.map(employee => ({
     ...Outcomes.salary,
     context: { employee }
   })),
 
-  default: (structure, outcome) =>  outcome.group.map(({ id, context }) => ({
-    ...Outcomes[id],
-    context
-  }))
+  default: (structure, outcome) =>
+    outcome.group.map(inject_outcome.default.bind(null, structure))
 }
 
 const compute_amount = {
@@ -52,8 +55,8 @@ const compute_amount = {
   dividend_tax: (structure, income) =>
      groupe_dividende.dividende_sasu.compute(income).tax,
 
-  benefit_net: ({ distributeDividend = defaultDividendDistribution }, income) =>
-    distributeDividend(income).to_dividend,
+  benefit_net: ({ distribute_dividend = defaults.dividend_distribution }, income) =>
+    distribute_dividend(income).to_dividend,
 
   charges_salariales_csg: (structure, income) =>
     groupe_charges_salariales.csg.compute(income).tax,
@@ -73,20 +76,33 @@ const compute_amount = {
   charges_salariales_assurance_chomage: (structure, income) =>
     groupe_charges_salariales.assurance_chomage.compute(income).tax,
 
-  charges_salariales_retraite_compl_non_cadre_trA: (structure, income) =>
-    groupe_charges_salariales.retraite_compl_non_cadre_trA.compute(income).tax,
+  charges_salariales_retraite_compl_non_cadre_trA: (structure, income, outcome, { employee }) =>
+    !employee.cadre
+      ? groupe_charges_salariales.retraite_compl_non_cadre_trA.compute(income).tax
+      : 0,
 
-  charges_salariales_retraite_compl_non_cadre_trB: (structure, income) =>
-    groupe_charges_salariales.retraite_compl_non_cadre_trB.compute(income).tax,
+  charges_salariales_retraite_compl_non_cadre_trB: (structure, income, outcome, { employee }) =>
+    !employee.cadre
+      ? groupe_charges_salariales.retraite_compl_non_cadre_trB.compute(income).tax
+      : 0,
 
-  charges_salariales_retraite_compl_cadre_trA: (structure, income) =>
-    groupe_charges_salariales.retraite_compl_cadre_trA.compute(income).tax,
+  charges_salariales_retraite_compl_cadre_trA: (structure, income, outcome, { employee }) =>
+    employee.cadre
+      ? groupe_charges_salariales.retraite_compl_cadre_trA.compute(income).tax
+      : 0,
 
-  charges_salariales_retraite_compl_cadre_trB: (structure, income) =>
-    groupe_charges_salariales.retraite_compl_cadre_trB.compute(income).tax,
+  charges_salariales_retraite_compl_cadre_trB: (structure, income, outcome, { employee }) =>
+    employee.cadre
+      ? groupe_charges_salariales.retraite_compl_cadre_trB.compute(income).tax
+      : 0,
 
-  charges_salariales_retraite_compl_cadre_trC: (structure, income) =>
-    groupe_charges_salariales.retraite_compl_cadre_trC.compute(income).tax,
+  charges_salariales_retraite_compl_cadre_trC: ({
+    ratio_salarie_retraite_compl_cadre_trC = defaults.ratio_salarie_retraite_compl_cadre_trC
+  }, income, outcome, { employee }) =>
+    employee.cadre
+      ? ratio_salarie_retraite_compl_cadre_trC
+        * groupe_charges_salariales.retraite_compl_cadre_trC.compute(income).tax
+      : 0,
 
   charges_patronales_assurance_maladie: (structure, income) =>
     groupe_charges_patronales.assurance_maladie.compute(income).tax,
@@ -109,20 +125,33 @@ const compute_amount = {
   charges_patronales_fond_garantie_salaires: (structure, income) =>
     groupe_charges_patronales.fond_garantie_salaires.compute(income).tax,
 
-  charges_patronales_retraite_compl_non_cadre_trA: (structure, income) =>
-    groupe_charges_patronales.retraite_compl_non_cadre_trA.compute(income).tax,
+  charges_patronales_retraite_compl_non_cadre_trA: (structure, income, outcome, { employee }) =>
+    !employee.cadre
+      ? groupe_charges_patronales.retraite_compl_non_cadre_trA.compute(income).tax
+      : 0,
 
-  charges_patronales_retraite_compl_non_cadre_trB: (structure, income) =>
-    groupe_charges_patronales.retraite_compl_non_cadre_trB.compute(income).tax,
+  charges_patronales_retraite_compl_non_cadre_trB: (structure, income, outcome, { employee }) =>
+    !employee.cadre
+      ? groupe_charges_patronales.retraite_compl_non_cadre_trB.compute(income).tax
+      : 0,
 
-  charges_patronales_retraite_compl_cadre_trA: (structure, income) =>
-    groupe_charges_patronales.retraite_compl_cadre_trA.compute(income).tax,
+  charges_patronales_retraite_compl_cadre_trA: (structure, income, outcome, { employee }) =>
+    employee.cadre
+      ? groupe_charges_patronales.retraite_compl_cadre_trA.compute(income).tax
+      : 0,
 
-  charges_patronales_retraite_compl_cadre_trB: (structure, income) =>
-    groupe_charges_patronales.retraite_compl_cadre_trB.compute(income).tax,
+  charges_patronales_retraite_compl_cadre_trB: (structure, income, outcome, { employee }) =>
+    employee.cadre
+      ? groupe_charges_patronales.retraite_compl_cadre_trB.compute(income).tax
+      : 0,
 
-  charges_patronales_retraite_compl_cadre_trC: (structure, income) =>
-    groupe_charges_patronales.retraite_compl_cadre_trC.compute(income).tax,
+  charges_patronales_retraite_compl_cadre_trC: ({
+    ratio_salarie_retraite_compl_cadre_trC = defaults.ratio_salarie_retraite_compl_cadre_trC
+  }, income, outcome, { employee }) =>
+    employee.cadre
+      ? (1 - ratio_salarie_retraite_compl_cadre_trC)
+        * groupe_charges_patronales.retraite_compl_cadre_trC.compute(income).tax
+      : 0,
 
   charges_patronales_assurace_deces: (structure, income) =>
     groupe_charges_patronales.assurace_deces.compute(income).tax,
