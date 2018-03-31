@@ -1,5 +1,5 @@
 revenue:
-  label: Chiffre daffaire
+  label: Chiffre d'affaire
   id: revenue
   type: group
   group:

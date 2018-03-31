@@ -1,14 +1,9 @@
-import { fiscalYear } from './exercice';
-import { structure } from './structure';
-import { taxes } from './parser';
-
-// TODO remove this
 import { asTree } from 'treeify';
 
-const treeify = obj => asTree(obj, true);
+import { fiscalYear } from './exercice';
+import { structure } from './structure';
 
-console.log(" ====== TAXES ====== ");
-console.log(treeify(taxes));
+const treeify = obj => asTree(obj, true);
 
 console.log(" ====== STRUCTURE ====== ");
 console.log(treeify(structure));

@@ -12,7 +12,7 @@ const costs = [{
 }]
 
 const employees = [{
-  label: 'etn',
+  label: 'moi',
   gross_monthly_salary: 3750,
   cadre: true
 }]
