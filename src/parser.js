@@ -37,10 +37,10 @@ function taxFromFile(relativePath) {
 
 
 export const taxes = {
-  ...taxFromFile('../data/impots/impot-revenus.yml'),
-  ...taxFromFile('../data/impots/impot-societes.yml'),
-  ...taxFromFile('../data/impots/charges.yml'),
-  ...taxFromFile('../data/impots/dividendes.yml')
+  ...taxFromFile('../data/taxes/impot-revenus.yml'),
+  ...taxFromFile('../data/taxes/impot-societes.yml'),
+  ...taxFromFile('../data/taxes/charges.yml'),
+  ...taxFromFile('../data/taxes/dividendes.yml')
 };
 
 function statutFromFile(relativePath) {
@@ -48,5 +48,5 @@ function statutFromFile(relativePath) {
 }
 
 export const status = {
-  sasu: statutFromFile('../data/statuts/sasu.yml')
+  sasu: statutFromFile('../data/status/sasu.yml')
 }

@@ -4,6 +4,13 @@
 
 Étant donné une structure décrivant une entité fiscale (entreprise ou individu salarié), fisca.js retourne l’exercice fiscale sous la forme d'un arbre contenant l'ensemble des charges et dépenses.
 
+fisca.js fournit le moteur de calcul, et permet de définir différentes situations d'exercice fiscal (SAS, EI, salarié ...).
+Chaque situation est décrite sous la forme d'un **arbre** et de **méthodes de calcul**.
+
+- L'**arbre** représente la hiérarchie entre les différentes parties de l'exercice fiscale (e.g. le chiffre d'affaire c'est la somme des charges et du bénéfice).
+Par exemple, l'arbre de la SASU est définit dans le fichier [data/status/sasu.yml](data/status/sasu.yml).
+- Les **méthodes de calcul** permettent de calculer la répartition de capital entre les nœuds (e.g. les charges patronales, c'est ~89% du salaire brut).
+Par exemple, les méthodes de calcul de la SASU sont définis dans le fichier [src/status/sasu.js](src/status/sasu.js).
 
 ## Example
 
