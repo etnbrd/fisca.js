@@ -48,5 +48,6 @@ function statutFromFile(relativePath) {
 }
 
 export const status = {
-  sasu: statutFromFile('../data/status/sasu.yml')
+  sasu: statutFromFile('../data/status/sasu.yml'),
+  me: statutFromFile('../data/status/me.yml')
 }

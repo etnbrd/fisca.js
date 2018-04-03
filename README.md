@@ -88,4 +88,4 @@ structure:
 
 La librairie n'est pas encore publié sur *npm*, mais le sera prochainement.
 
-En attendant, pour voir à quoi ça ressemble, après avoir cloné le projet, `npm test` affichera le résultat de l'exercice fiscal pour la structure décrite plus haut.
+En attendant, pour voir à quoi ça ressemble, après avoir cloné le projet, `npm start` affichera le résultat de l'exercice fiscal pour la structure décrite plus haut.

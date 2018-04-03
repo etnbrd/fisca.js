@@ -1,0 +1,44 @@
+revenue:
+  label: Chiffre d'affaire
+  id: revenue
+  type: group
+  group:
+  - id: charges
+  output:
+    id: benefit
+
+charges:
+  label: Charges
+  id: charges
+  type: group
+  group:
+  - id: cfe
+  - id: cotisation_sociales
+
+cfe:
+  label: Cotisation foncière des entreprises
+  id: cfe
+  type: tax
+
+cotisation_sociales:
+  label: Cotisations sociales
+  id: cotisation_sociales
+  type: group
+  group:
+  - id: cipav
+  - id: cfp
+
+cipav:
+  label: Caisse interprofessionnelle de prévoyance et d'assurance vieillesse
+  id: cipav
+  type: tax
+
+cfp:
+  label: Contribution à la formation professionnelle
+  id: cfp
+  type: tax
+
+benefit:
+  label: Bénéfice
+  id: benefit
+  type: benefit

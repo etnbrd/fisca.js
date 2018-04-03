@@ -215,3 +215,20 @@ groupe_charges_patronales:
       base: *assiette_totale # TODO Masse salariale === l'ensemble des salaires ?
       brackets:
       - { floor: 0, rate: 0.01 }
+
+# MICRO-ENTREPRISE
+
+groupe_me:
+  formation_professionnelle:
+    2018:
+      label: Formation professionnelle
+      base: *assiette_totale
+      brackets:
+      - { floor: 0, rate: 0.002 }
+
+  cipav:
+    2018:
+      label: cipav
+      base: *assiette_totale
+      brackets:
+      - { floor: 0, rate: 0.22}

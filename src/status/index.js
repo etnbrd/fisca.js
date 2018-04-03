@@ -1,2 +1,3 @@
 import sasu from './sasu';
-export default { sasu };
+import me from './me';
+export default { sasu, me };
