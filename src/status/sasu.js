@@ -45,124 +45,186 @@ const inject_group = {
     outcome.group.map(inject_outcome.default.bind(null, structure))
 }
 
-const compute_amount = {
+const compute_outcome = {
   salary: (structure, income, outcome, { employee }) =>
-    employee.gross_monthly_salary * 12,
+    ({ amount: employee.gross_monthly_salary * 12 }),
 
-  impot_societes: (structure, income) =>
-    groupe_impot_societes.impot_societes.compute(income).tax,
+  impot_societes: (structure, income) => {
+    const { tax, benefits } = groupe_impot_societes.impot_societes.compute(income);
+    return { amount: tax, benefits };
+  },
 
-  dividend_tax: (structure, income) =>
-     groupe_dividende.dividende_sasu.compute(income).tax,
+  dividend_tax: (structure, income) => {
+    const { tax, benefits } = groupe_dividende.dividende_sasu.compute(income);
+    return { amount: tax, benefits };
+  },
 
   benefit_net: ({ distribute_dividend = defaults.dividend_distribution }, income) =>
-    distribute_dividend(income).to_dividend,
+    ({ amount: distribute_dividend(income).to_dividend }),
 
-  charges_salariales_csg: (structure, income) =>
-    groupe_charges_salariales.csg.compute(income).tax,
+  charges_salariales_csg: (structure, income) => {
+    const { tax, benefits } = groupe_charges_salariales.csg.compute(income);
+    return { amount: tax, benefits };
+  },
 
-  charges_salariales_crds: (structure, income) =>
-    groupe_charges_salariales.crds.compute(income).tax,
+  charges_salariales_crds: (structure, income) => {
+    const { tax, benefits } = groupe_charges_salariales.crds.compute(income);
+    return { amount: tax, benefits };
+  },
 
-  charges_salariales_assurance_maladie: (structure, income) =>
-    groupe_charges_salariales.assurance_maladie.compute(income).tax,
+  charges_salariales_assurance_maladie: (structure, income) => {
+    const { tax, benefits } = groupe_charges_salariales.assurance_maladie.compute(income);
+    return { amount: tax, benefits };
+  },
 
-  charges_salariales_assurance_vieillesse_plafond: (structure, income) =>
-    groupe_charges_salariales.assurance_vieillesse_plafond.compute(income).tax,
+  charges_salariales_assurance_vieillesse_plafond: (structure, income) => {
+    const { tax, benefits } = groupe_charges_salariales.assurance_vieillesse_plafond.compute(income);
+    return { amount: tax, benefits };
+  },
 
-  charges_salariales_assurance_vieillesse: (structure, income) =>
-    groupe_charges_salariales.assurance_vieillesse.compute(income).tax,
+  charges_salariales_assurance_vieillesse: (structure, income) => {
+    const { tax, benefits } = groupe_charges_salariales.assurance_vieillesse.compute(income);
+    return { amount: tax, benefits };
+  },
 
-  charges_salariales_assurance_chomage: (structure, income) =>
-    groupe_charges_salariales.assurance_chomage.compute(income).tax,
+  charges_salariales_assurance_chomage: (structure, income) => {
+    const { tax, benefits } = groupe_charges_salariales.assurance_chomage.compute(income);
+    return { amount: tax, benefits };
+  },
 
-  charges_salariales_retraite_compl_non_cadre_trA: (structure, income, outcome, { employee }) =>
-    !employee.cadre
-      ? groupe_charges_salariales.retraite_compl_non_cadre_trA.compute(income).tax
-      : 0,
+  charges_salariales_retraite_compl_non_cadre_trA: (structure, income, outcome, { employee }) => {
+    if (!employee.cadre) {
+      const { tax, benefits } = groupe_charges_salariales.retraite_compl_non_cadre_trA.compute(income);
+      return { amount: tax, benefits };
+    }
+    return { amount: 0 };
+  },
 
-  charges_salariales_retraite_compl_non_cadre_trB: (structure, income, outcome, { employee }) =>
-    !employee.cadre
-      ? groupe_charges_salariales.retraite_compl_non_cadre_trB.compute(income).tax
-      : 0,
+  charges_salariales_retraite_compl_non_cadre_trB: (structure, income, outcome, { employee }) => {
+    if (!employee.cadre) {
+      const { tax, benefits } = groupe_charges_salariales.retraite_compl_non_cadre_trB.compute(income);
+      return { amount: tax, benefits };
+    }
+    return { amount: 0 };
+  },
 
-  charges_salariales_retraite_compl_cadre_trA: (structure, income, outcome, { employee }) =>
-    employee.cadre
-      ? groupe_charges_salariales.retraite_compl_cadre_trA.compute(income).tax
-      : 0,
+  charges_salariales_retraite_compl_cadre_trA: (structure, income, outcome, { employee }) => {
+    if (employee.cadre) {
+      const { tax, benefits } = groupe_charges_salariales.retraite_compl_cadre_trA.compute(income);
+      return { amount: tax, benefits };
+    }
+    return { amount: 0 };
+  },
 
-  charges_salariales_retraite_compl_cadre_trB: (structure, income, outcome, { employee }) =>
-    employee.cadre
-      ? groupe_charges_salariales.retraite_compl_cadre_trB.compute(income).tax
-      : 0,
+  charges_salariales_retraite_compl_cadre_trB: (structure, income, outcome, { employee }) => {
+    if (employee.cadre) {
+      const { tax, benefits } = groupe_charges_salariales.retraite_compl_cadre_trB.compute(income);
+      return { amount: tax, benefits };
+    }
+    return { amount: 0 };
+  },
 
   charges_salariales_retraite_compl_cadre_trC: ({
     ratio_salarie_retraite_compl_cadre_trC = defaults.ratio_salarie_retraite_compl_cadre_trC
-  }, income, outcome, { employee }) =>
-    employee.cadre
-      ? ratio_salarie_retraite_compl_cadre_trC
-        * groupe_charges_salariales.retraite_compl_cadre_trC.compute(income).tax
-      : 0,
+  }, income, outcome, { employee }) => {
+    if (employee.cadre) {
+      const { tax, benefits } = groupe_charges_salariales.retraite_compl_cadre_trC.compute(income);
+      return { amount: ratio_salarie_retraite_compl_cadre_trC * tax, benefits };
+    }
+    return { amount: 0 };
+  },
 
-  charges_patronales_assurance_maladie: (structure, income) =>
-    groupe_charges_patronales.assurance_maladie.compute(income).tax,
+  charges_patronales_assurance_maladie: (structure, income) => {
+    const { tax, benefits } = groupe_charges_patronales.assurance_maladie.compute(income);
+    return { amount: tax, benefits };
+  },
 
-  charges_patronales_assurance_vieillesse_plafond: (structure, income) =>
-    groupe_charges_patronales.assurance_vieillesse_plafond.compute(income).tax,
+  charges_patronales_assurance_vieillesse_plafond: (structure, income) => {
+    const { tax, benefits } = groupe_charges_patronales.assurance_vieillesse_plafond.compute(income);
+    return { amount: tax, benefits };
+  },
 
-  charges_patronales_assurance_vieillesse: (structure, income) =>
-    groupe_charges_patronales.assurance_vieillesse.compute(income).tax,
+  charges_patronales_assurance_vieillesse: (structure, income) => {
+    const { tax, benefits } = groupe_charges_patronales.assurance_vieillesse.compute(income);
+    return { amount: tax, benefits };
+  },
 
-  charges_patronales_allocations_familiales: (structure, income) =>
-    groupe_charges_patronales.allocations_familiales.compute(income).tax,
+  charges_patronales_allocations_familiales: (structure, income) => {
+    const { tax, benefits } = groupe_charges_patronales.allocations_familiales.compute(income);
+    return { amount: tax, benefits };
+  },
 
-  charges_patronales_aide_logement: (structure, income) =>
-    groupe_charges_patronales.aide_logement.compute(income).tax,
+  charges_patronales_aide_logement: (structure, income) => {
+    const { tax, benefits } = groupe_charges_patronales.aide_logement.compute(income);
+    return { amount: tax, benefits };
+  },
 
-  charges_patronales_assurance_chomage: (structure, income) =>
-    groupe_charges_patronales.assurance_chomage.compute(income).tax,
+  charges_patronales_assurance_chomage: (structure, income) => {
+    const { tax, benefits } = groupe_charges_patronales.assurance_chomage.compute(income);
+    return { amount: tax, benefits };
+  },
 
-  charges_patronales_fond_garantie_salaires: (structure, income) =>
-    groupe_charges_patronales.fond_garantie_salaires.compute(income).tax,
+  charges_patronales_fond_garantie_salaires: (structure, income) => {
+    const { tax, benefits } = groupe_charges_patronales.fond_garantie_salaires.compute(income);
+    return { amount: tax, benefits };
+  },
 
-  charges_patronales_retraite_compl_non_cadre_trA: (structure, income, outcome, { employee }) =>
-    !employee.cadre
-      ? groupe_charges_patronales.retraite_compl_non_cadre_trA.compute(income).tax
-      : 0,
+  charges_patronales_retraite_compl_non_cadre_trA: (structure, income, outcome, { employee }) => {
+    if (!employee.cadre) {
+      const { tax, benefits } = groupe_charges_patronales.retraite_compl_non_cadre_trA.compute(income);
+      return { amount: tax, benefits };
+    }
+    return { amount: 0 };
+  },
 
-  charges_patronales_retraite_compl_non_cadre_trB: (structure, income, outcome, { employee }) =>
-    !employee.cadre
-      ? groupe_charges_patronales.retraite_compl_non_cadre_trB.compute(income).tax
-      : 0,
+  charges_patronales_retraite_compl_non_cadre_trB: (structure, income, outcome, { employee }) => {
+    if (!employee.cadre) {
+      const { tax, benefits } = groupe_charges_patronales.retraite_compl_non_cadre_trB.compute(income);
+      return { amount: tax, benefits };
+    }
+    return { amount: 0 };
+  },
 
-  charges_patronales_retraite_compl_cadre_trA: (structure, income, outcome, { employee }) =>
-    employee.cadre
-      ? groupe_charges_patronales.retraite_compl_cadre_trA.compute(income).tax
-      : 0,
+  charges_patronales_retraite_compl_cadre_trA: (structure, income, outcome, { employee }) => {
+    if (employee.cadre) {
+      const { tax, benefits } = groupe_charges_patronales.retraite_compl_cadre_trA.compute(income);
+      return { amount: tax, benefits };
+    }
+    return { amount: 0 };
+  },
 
-  charges_patronales_retraite_compl_cadre_trB: (structure, income, outcome, { employee }) =>
-    employee.cadre
-      ? groupe_charges_patronales.retraite_compl_cadre_trB.compute(income).tax
-      : 0,
+  charges_patronales_retraite_compl_cadre_trB: (structure, income, outcome, { employee }) => {
+    if (employee.cadre) {
+      const { tax, benefits } = groupe_charges_patronales.retraite_compl_cadre_trB.compute(income);
+      return { amount: tax, benefits };
+    }
+    return { amount: 0 };
+  },
 
   charges_patronales_retraite_compl_cadre_trC: ({
     ratio_salarie_retraite_compl_cadre_trC = defaults.ratio_salarie_retraite_compl_cadre_trC
-  }, income, outcome, { employee }) =>
-    employee.cadre
-      ? (1 - ratio_salarie_retraite_compl_cadre_trC)
-        * groupe_charges_patronales.retraite_compl_cadre_trC.compute(income).tax
-      : 0,
+  }, income, outcome, { employee }) => {
+    if (employee.cadre) {
+      const { tax, benefits } = groupe_charges_patronales.retraite_compl_cadre_trC.compute(income);
+      return { amount: (1 - ratio_salarie_retraite_compl_cadre_trC) * tax , benefits };
+    }
+      return { amount: 0 };
+  },
 
-  charges_patronales_assurace_deces: (structure, income) =>
-    groupe_charges_patronales.assurace_deces.compute(income).tax,
+  charges_patronales_assurace_deces: (structure, income) => {
+    const { tax, benefits } = groupe_charges_patronales.assurace_deces.compute(income);
+    return { amount: tax, benefits };
+  },
 
-  charges_patronales_formation_professionnelle: (structure, income) =>
-    groupe_charges_patronales.formation_professionnelle.compute(income).tax
+  charges_patronales_formation_professionnelle: (structure, income) => {
+    const { tax, benefits } = groupe_charges_patronales.formation_professionnelle.compute(income);
+    return { amount: tax, benefits };
+  }
 }
 
 export default {
   status: 'sasu',
   inject_outcome,
   inject_group,
-  compute_amount
+  compute_outcome
 }

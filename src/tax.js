@@ -76,12 +76,18 @@ export default class Tax {
 
 
   constructor(structure) {
-    const { brackets = [default_bracket], base = [default_bracket] } = structure;
+    const {
+      brackets = [default_bracket],
+      base = [default_bracket],
+      benefits
+    } = structure;
 
     this.brackets = mergeBrackets(
       fillCeil(brackets),
       fillCeil(base)
     ).map(bracket => new Bracket(bracket));
+
+    this.benefits = benefits;
   }
 
 
@@ -97,12 +103,14 @@ export default class Tax {
         taxes: [
           ...result.taxes,
           { tax, bracket }
-        ]
+        ],
+        benefits: result.benefits
       }
     }, {
       outcome: income,
       tax: 0,
-      taxes: []
+      taxes: [],
+      benefits: this.benefits
     })
   }
 }

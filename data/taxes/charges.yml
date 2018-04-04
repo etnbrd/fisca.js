@@ -58,6 +58,9 @@ groupe_charges_salariales:
       base: *assiette_totale
       brackets:
       - { floor: 0, rate: 0.0075 }
+      benefits:
+      - id: assurance_maladie
+        label: Assurance maladie
 
   assurance_vieillesse_plafond:
     2018:

@@ -14,12 +14,12 @@ function inject_group(structure, outcome) {
   )(structure, outcome);
 }
 
-function compute_amount(structure, income, outcome, context) {
+function compute_outcome(structure, income, outcome, context) {
   if (outcome.amount) return outcome.amount;
-  const compute = structure.compute_amount[outcome.id];
+  const compute = structure.compute_outcome[outcome.id];
   return compute
     ? compute(structure, income, outcome, context)
-    : income
+    : { amount: income }
 }
 
 function reduce_group(structure, income, outcome, parent_context) {
@@ -41,7 +41,10 @@ function reduce_group(structure, income, outcome, parent_context) {
 
 function reduce_outcome(structure, income, outcome, context) {
 
-  const available_income = compute_amount(structure, income, outcome, context);
+  const {
+    amount: available_income,
+    benefits
+  } = compute_outcome(structure, income, outcome, context);
 
   if (outcome.type === 'group') {
     const { sum, group } = reduce_group(structure, available_income, outcome, context);
@@ -52,6 +55,7 @@ function reduce_outcome(structure, income, outcome, context) {
 
       return {
         amount: sum + output.amount,
+        benefits,
         ...outcome,
         group,
         output
@@ -60,6 +64,7 @@ function reduce_outcome(structure, income, outcome, context) {
 
     return {
       amount: sum,
+      benefits,
       ...outcome,
       group
     }
@@ -67,6 +72,7 @@ function reduce_outcome(structure, income, outcome, context) {
 
   return {
     amount: available_income,
+    benefits,
     ...outcome
   }
 }

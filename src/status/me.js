@@ -16,21 +16,26 @@ const inject_group = {
     outcome.group.map(inject_outcome.default.bind(null, structure))
 }
 
-const compute_amount = {
+const compute_outcome = {
 
-  cfe: (structure, income) =>
-    0, // TODO
+  cfe: (structure, income) => {
+    return { amount: 0 } // TODO
+  },
 
-  cipav: (structure, income) =>
-    groupe_me.cipav.compute(income).tax,
+  cipav: (structure, income) => {
+    const { tax: amount, benefits } = groupe_me.cipav.compute(income);
+    return { amount, benefits };
+  },
 
-  cfp: (structure, income) =>
-    groupe_me.formation_professionnelle.compute(income).tax
+  cfp: (structure, income) => {
+    const { tax: amount, benefits } = groupe_me.formation_professionnelle.compute(income);
+    return { amount, benefits };
+  }
 }
 
 export default {
   status: 'me',
   inject_outcome,
   inject_group,
-  compute_amount
+  compute_outcome
 }
