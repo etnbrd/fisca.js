@@ -1,5 +1,5 @@
-import { taxes, status } from '../parser';
-const Outcomes = status.me;
+import taxes from '../../taxes';
+import Outcomes from './tree.json';
 
 
 const {

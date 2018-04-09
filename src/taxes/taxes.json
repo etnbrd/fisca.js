@@ -1,0 +1,672 @@
+{
+	"groupe_charges_salariales": {
+		"csg": {
+			"2018": {
+				"label": "Contribution Sociale Généralisée (CSG)",
+				"base": [
+					{
+						"floor": 0,
+						"rate": 0.9825
+					},
+					{
+						"floor": 154464,
+						"rate": 1
+					}
+				],
+				"brackets": [
+					{
+						"floor": 0,
+						"rate": 0.075
+					}
+				]
+			}
+		},
+		"crds": {
+			"2018": {
+				"label": "Contribution au remboursement de la dette sociale (CRDS)",
+				"base": [
+					{
+						"floor": 0,
+						"rate": 0.9825
+					},
+					{
+						"floor": 154464,
+						"rate": 1
+					}
+				],
+				"brackets": [
+					{
+						"floor": 0,
+						"rate": 0.005
+					}
+				]
+			}
+		},
+		"assurance_maladie": {
+			"2018": {
+				"label": "Assurance maladie",
+				"base": [
+					{
+						"floor": 1,
+						"rate": 1
+					}
+				],
+				"brackets": [
+					{
+						"floor": 0,
+						"rate": 0.0075
+					}
+				],
+				"benefits": [
+					{
+						"id": "assurance_maladie",
+						"label": "Assurance maladie"
+					}
+				]
+			}
+		},
+		"assurance_vieillesse_plafond": {
+			"2018": {
+				"label": "Assurance vieillesse plafonnée",
+				"base": [
+					{
+						"floor": 0,
+						"rate": 1
+					},
+					{
+						"floor": 39228,
+						"rate": 0
+					}
+				],
+				"brackets": [
+					{
+						"floor": 0,
+						"rate": 0.069
+					}
+				]
+			}
+		},
+		"assurance_vieillesse": {
+			"2018": {
+				"label": "Assurance vieillesse déplafonnée",
+				"base": [
+					{
+						"floor": 1,
+						"rate": 1
+					}
+				],
+				"brackets": [
+					{
+						"floor": 0,
+						"rate": 0.0035
+					}
+				]
+			}
+		},
+		"assurance_chomage": {
+			"2018": {
+				"label": "Assurance chômage",
+				"base": [
+					{
+						"floor": 0,
+						"rate": 1
+					},
+					{
+						"floor": 156912,
+						"rate": 0
+					}
+				],
+				"brackets": [
+					{
+						"floor": 0,
+						"rate": 0.024
+					}
+				]
+			}
+		},
+		"retraite_compl_non_cadre_trA": {
+			"2018": {
+				"label": "Retraite complémentaire non cadres. Tranche A",
+				"base": [
+					{
+						"floor": 0,
+						"rate": 1
+					},
+					{
+						"floor": 39228,
+						"rate": 0
+					}
+				],
+				"brackets": [
+					{
+						"floor": 0,
+						"rate": 0.031
+					}
+				]
+			}
+		},
+		"retraite_compl_non_cadre_trB": {
+			"2018": {
+				"label": "Retraite complémentaire non cadres. Tranche B",
+				"base": [
+					{
+						"floor": 0,
+						"rate": 0
+					},
+					{
+						"floor": 39228,
+						"rate": 1
+					},
+					{
+						"floor": 117684,
+						"rate": 0
+					}
+				],
+				"brackets": [
+					{
+						"floor": 0,
+						"rate": 0.081
+					}
+				]
+			}
+		},
+		"retraite_compl_cadre_trA": {
+			"2018": {
+				"label": "Retraite complémentaire cadres. Tranche A",
+				"base": [
+					{
+						"floor": 0,
+						"rate": 1
+					},
+					{
+						"floor": 39228,
+						"rate": 0
+					}
+				],
+				"brackets": [
+					{
+						"floor": 0,
+						"rate": 0.031
+					}
+				]
+			}
+		},
+		"retraite_compl_cadre_trB": {
+			"2018": {
+				"label": "Retraite complémentaire cadres. Tranche B",
+				"base": [
+					{
+						"floor": 0,
+						"rate": 0
+					},
+					{
+						"floor": 39228,
+						"rate": 1
+					},
+					{
+						"floor": 156912,
+						"rate": 0
+					}
+				],
+				"brackets": [
+					{
+						"floor": 0,
+						"rate": 0.078
+					}
+				]
+			}
+		},
+		"retraite_compl_cadre_trC": {
+			"2018": {
+				"label": "Retraite complémentaire cadres. Tranche C",
+				"base": [
+					{
+						"floor": 0,
+						"rate": 0
+					},
+					{
+						"floor": 156912,
+						"rate": 1
+					},
+					{
+						"floor": 313824,
+						"rate": 0
+					}
+				],
+				"brackets": [
+					{
+						"floor": 0,
+						"rate": 0.2055
+					}
+				]
+			}
+		}
+	},
+	"groupe_charges_patronales": {
+		"assurance_maladie": {
+			"2018": {
+				"label": "Assurance maladie",
+				"base": [
+					{
+						"floor": 1,
+						"rate": 1
+					}
+				],
+				"brackets": [
+					{
+						"floor": 0,
+						"rate": 0.1289
+					}
+				]
+			}
+		},
+		"assurance_vieillesse_plafond": {
+			"2018": {
+				"label": "Assurance vieillesse plafonnée",
+				"base": [
+					{
+						"floor": 0,
+						"rate": 1
+					},
+					{
+						"floor": 39228,
+						"rate": 0
+					}
+				],
+				"brackets": [
+					{
+						"floor": 0,
+						"rate": 0.855
+					}
+				]
+			}
+		},
+		"assurance_vieillesse": {
+			"2018": {
+				"label": "Assurance vieillesse déplafonnée",
+				"base": [
+					{
+						"floor": 1,
+						"rate": 1
+					}
+				],
+				"brackets": [
+					{
+						"floor": 0,
+						"rate": 0.019
+					}
+				]
+			}
+		},
+		"allocations_familiales": {
+			"2018": {
+				"label": "Allocations familiales",
+				"base": [
+					{
+						"floor": 1,
+						"rate": 1
+					}
+				],
+				"brackets": [
+					{
+						"floor": 0,
+						"rate": 0.0525
+					}
+				]
+			}
+		},
+		"aide_logement": {
+			"2018": {
+				"label": "Aide au logement dans les entreprises de moins de 20 salariés",
+				"base": [
+					{
+						"floor": 0,
+						"rate": 1
+					},
+					{
+						"floor": 39228,
+						"rate": 0
+					}
+				],
+				"brackets": [
+					{
+						"floor": 0,
+						"rate": 0.001
+					}
+				]
+			}
+		},
+		"assurance_chomage": {
+			"2018": {
+				"label": "Assurance chômage",
+				"base": [
+					{
+						"floor": 0,
+						"rate": 1
+					},
+					{
+						"floor": 156912,
+						"rate": 0
+					}
+				],
+				"brackets": [
+					{
+						"floor": 0,
+						"rate": 0.04
+					}
+				]
+			}
+		},
+		"fond_garantie_salaires": {
+			"2018": {
+				"label": "Fonds de garantie des salaires",
+				"base": [
+					{
+						"floor": 0,
+						"rate": 1
+					},
+					{
+						"floor": 156912,
+						"rate": 0
+					}
+				],
+				"brackets": [
+					{
+						"floor": 0,
+						"rate": 0.003
+					}
+				]
+			}
+		},
+		"retraite_compl_non_cadre_trA": {
+			"2018": {
+				"label": "Retraite complémentaire non cadres. Tranche A",
+				"base": [
+					{
+						"floor": 0,
+						"rate": 1
+					},
+					{
+						"floor": 39228,
+						"rate": 0
+					}
+				],
+				"brackets": [
+					{
+						"floor": 0,
+						"rate": 0.0465
+					}
+				]
+			}
+		},
+		"retraite_compl_non_cadre_trB": {
+			"2018": {
+				"label": "Retraite complémentaire non cadres. Tranche B",
+				"base": [
+					{
+						"floor": 0,
+						"rate": 0
+					},
+					{
+						"floor": 39228,
+						"rate": 1
+					},
+					{
+						"floor": 117684,
+						"rate": 0
+					}
+				],
+				"brackets": [
+					{
+						"floor": 0,
+						"rate": 0.1215
+					}
+				]
+			}
+		},
+		"retraite_compl_cadre_trA": {
+			"2018": {
+				"label": "Retraite complémentaire cadres. Tranche A",
+				"base": [
+					{
+						"floor": 0,
+						"rate": 1
+					},
+					{
+						"floor": 39228,
+						"rate": 0
+					}
+				],
+				"brackets": [
+					{
+						"floor": 0,
+						"rate": 0.0465
+					}
+				]
+			}
+		},
+		"retraite_compl_cadre_trB": {
+			"2018": {
+				"label": "Retraite complémentaire cadres. Tranche B",
+				"base": [
+					{
+						"floor": 0,
+						"rate": 0
+					},
+					{
+						"floor": 39228,
+						"rate": 1
+					},
+					{
+						"floor": 156912,
+						"rate": 0
+					}
+				],
+				"brackets": [
+					{
+						"floor": 0,
+						"rate": 0.1275
+					}
+				]
+			}
+		},
+		"retraite_compl_cadre_trC": {
+			"2018": {
+				"label": "Retraite complémentaire cadres. Tranche C",
+				"base": [
+					{
+						"floor": 0,
+						"rate": 0
+					},
+					{
+						"floor": 156912,
+						"rate": 1
+					},
+					{
+						"floor": 313824,
+						"rate": 0
+					}
+				],
+				"brackets": [
+					{
+						"floor": 0,
+						"rate": 0.2055
+					}
+				]
+			}
+		},
+		"assurace_deces": {
+			"2018": {
+				"label": "Assurance décès",
+				"base": [
+					{
+						"floor": 0,
+						"rate": 1
+					},
+					{
+						"floor": 39228,
+						"rate": 0
+					}
+				],
+				"brackets": [
+					{
+						"floor": 0,
+						"rate": 0.015
+					}
+				]
+			}
+		},
+		"formation_professionnelle": {
+			"2018": {
+				"label": "Formation professionnelle",
+				"base": [
+					{
+						"floor": 1,
+						"rate": 1
+					}
+				],
+				"brackets": [
+					{
+						"floor": 0,
+						"rate": 0.01
+					}
+				]
+			}
+		}
+	},
+	"groupe_me": {
+		"formation_professionnelle": {
+			"2018": {
+				"label": "Formation professionnelle",
+				"base": [
+					{
+						"floor": 1,
+						"rate": 1
+					}
+				],
+				"brackets": [
+					{
+						"floor": 0,
+						"rate": 0.002
+					}
+				]
+			}
+		},
+		"cipav": {
+			"2018": {
+				"label": "cipav",
+				"base": [
+					{
+						"floor": 1,
+						"rate": 1
+					}
+				],
+				"brackets": [
+					{
+						"floor": 0,
+						"rate": 0.22
+					}
+				]
+			}
+		}
+	},
+	"groupe_dividende": {
+		"dividende_sasu": {
+			"2018": {
+				"label": "Dividendes (SASU)",
+				"brackets": [
+					{
+						"floor": 0,
+						"rate": 0.172
+					}
+				]
+			}
+		},
+		"dividende_eurl": {
+			"2018": {
+				"label": "Diviendes (EURL)",
+				"brackets": [
+					{
+						"floor": 0,
+						"rate": 0.4
+					}
+				]
+			}
+		}
+	},
+	"groupe_impot_revenus": {
+		"impot_revenus": {
+			"2017": {
+				"label": "Impôt sur le revenu",
+				"brackets": [
+					{
+						"floor": 0,
+						"rate": 0
+					},
+					{
+						"floor": 9701,
+						"rate": 0.14
+					},
+					{
+						"floor": 26819,
+						"rate": 0.3
+					},
+					{
+						"floor": 71899,
+						"rate": 0.41
+					},
+					{
+						"floor": 152261,
+						"rate": 0.45
+					}
+				]
+			},
+			"2018": {
+				"label": "Impôt sur le revenu",
+				"brackets": [
+					{
+						"floor": 0,
+						"rate": 0
+					},
+					{
+						"floor": 9807,
+						"rate": 0.14
+					},
+					{
+						"floor": 27086,
+						"rate": 0.3
+					},
+					{
+						"floor": 72617,
+						"rate": 0.41
+					},
+					{
+						"floor": 153783,
+						"rate": 0.45
+					}
+				]
+			}
+		}
+	},
+	"groupe_impot_societes": {
+		"impot_societes": {
+			"2017": {
+				"label": "Impôt sur les sociétes",
+				"brackets": [
+					{
+						"floor": 0,
+						"rate": 0.15
+					},
+					{
+						"floor": 38120,
+						"rate": 0.28
+					},
+					{
+						"floor": 500000,
+						"rate": 0.3333
+					}
+				]
+			}
+		}
+	}
+}

@@ -1,5 +1,5 @@
-import { taxes, status } from '../parser';
-const Outcomes = status.sasu;
+import taxes from '../../taxes';
+import Outcomes from './tree.json';
 
 function RatioDividendDistribution(ratio) {
   return (income) => ({

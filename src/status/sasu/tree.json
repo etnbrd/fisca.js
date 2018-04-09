@@ -1,0 +1,367 @@
+{
+  "revenue": {
+    "label": "Chiffre d'affaire",
+    "id": "revenue",
+    "type": "group",
+    "group": [
+      {
+        "id": "expenses"
+      }
+    ],
+    "output": {
+      "id": "result"
+    }
+  },
+  "expenses": {
+    "label": "Charges",
+    "id": "expenses",
+    "type": "group",
+    "group": [
+      {
+        "id": "external_expenses"
+      },
+      {
+        "id": "internal_expenses"
+      }
+    ]
+  },
+  "external_expenses": {
+    "label": "Charges externes",
+    "id": "external_expenses",
+    "type": "group"
+  },
+  "internal_expenses": {
+    "label": "Charges internes",
+    "id": "internal_expenses",
+    "type": "group",
+    "group": [
+      {
+        "id": "salaries"
+      }
+    ]
+  },
+  "salaries": {
+    "label": "Salaires",
+    "id": "salaries",
+    "type": "group",
+    "group": [
+      {
+        "id": "salary"
+      }
+    ]
+  },
+  "salary": {
+    "label": "Salaire",
+    "id": "salary",
+    "type": "group",
+    "group": [
+      {
+        "id": "charges_patronales"
+      },
+      {
+        "id": "gross_salary"
+      }
+    ]
+  },
+  "charges_patronales": {
+    "label": "Charges patronale",
+    "id": "charges_patronales",
+    "type": "group",
+    "group": [
+      {
+        "id": "charges_patronales_assurance_maladie"
+      },
+      {
+        "id": "charges_patronales_assurance_vieillesse_plafond"
+      },
+      {
+        "id": "charges_patronales_assurance_vieillesse"
+      },
+      {
+        "id": "charges_patronales_allocations_familiales"
+      },
+      {
+        "id": "charges_patronales_aide_logement"
+      },
+      {
+        "id": "charges_patronales_assurance_chomage"
+      },
+      {
+        "id": "charges_patronales_fond_garantie_salaires"
+      },
+      {
+        "id": "charges_patronales_retraite_compl_non_cadre_trA"
+      },
+      {
+        "id": "charges_patronales_retraite_compl_non_cadre_trB"
+      },
+      {
+        "id": "charges_patronales_retraite_compl_cadre_trA"
+      },
+      {
+        "id": "charges_patronales_retraite_compl_cadre_trB"
+      },
+      {
+        "id": "charges_patronales_retraite_compl_cadre_trC"
+      },
+      {
+        "id": "charges_patronales_assurace_deces"
+      },
+      {
+        "id": "charges_patronales_formation_professionnelle"
+      }
+    ]
+  },
+  "charges_patronales_assurance_maladie": {
+    "label": "Assurance maladie",
+    "id": "charges_patronales_assurance_maladie",
+    "type": "tax"
+  },
+  "charges_patronales_assurance_vieillesse_plafond": {
+    "label": "Assurance vieillesse plafonnée",
+    "id": "charges_patronales_assurance_vieillesse_plafond",
+    "type": "tax"
+  },
+  "charges_patronales_assurance_vieillesse": {
+    "label": "Assurance vieillesse déplafonnée",
+    "id": "charges_patronales_assurance_vieillesse",
+    "type": "tax"
+  },
+  "charges_patronales_allocations_familiales": {
+    "label": "Allocations familiales",
+    "id": "charges_patronales_allocations_familiales",
+    "type": "tax"
+  },
+  "charges_patronales_aide_logement": {
+    "label": "Aide au logement dans les entreprises de moins de 20 salariés",
+    "id": "charges_patronales_aide_logement",
+    "type": "tax"
+  },
+  "charges_patronales_assurance_chomage": {
+    "label": "Assurance chômage",
+    "id": "charges_patronales_assurance_chomage",
+    "type": "tax"
+  },
+  "charges_patronales_fond_garantie_salaires": {
+    "label": "Fonds de garantie des salaires",
+    "id": "charges_patronales_fond_garantie_salaires",
+    "type": "tax"
+  },
+  "charges_patronales_retraite_compl_non_cadre_trA": {
+    "label": "Retraite complémentaire non cadres. Tranche A",
+    "id": "charges_patronales_retraite_compl_non_cadre_trA",
+    "type": "tax"
+  },
+  "charges_patronales_retraite_compl_non_cadre_trB": {
+    "label": "Retraite complémentaire non cadres. Tranche B",
+    "id": "charges_patronales_retraite_compl_non_cadre_trB",
+    "type": "tax"
+  },
+  "charges_patronales_retraite_compl_cadre_trA": {
+    "label": "Retraite complémentaire cadres. Tranche A",
+    "id": "charges_patronales_retraite_compl_cadre_trA",
+    "type": "tax"
+  },
+  "charges_patronales_retraite_compl_cadre_trB": {
+    "label": "Retraite complémentaire cadres. Tranche B",
+    "id": "charges_patronales_retraite_compl_cadre_trB",
+    "type": "tax"
+  },
+  "charges_patronales_retraite_compl_cadre_trC": {
+    "label": "Retraite complémentaire cadres. Tranche C",
+    "id": "charges_patronales_retraite_compl_cadre_trC",
+    "type": "tax"
+  },
+  "charges_patronales_assurace_deces": {
+    "label": "Assurance décès",
+    "id": "charges_patronales_assurace_deces",
+    "type": "tax"
+  },
+  "charges_patronales_formation_professionnelle": {
+    "label": "Formation professionnelle",
+    "id": "charges_patronales_formation_professionnelle",
+    "type": "tax"
+  },
+  "gross_salary": {
+    "label": "Salaire brut",
+    "id": "gross_salary",
+    "type": "group",
+    "group": [
+      {
+        "id": "charges_salariales"
+      }
+    ],
+    "output": {
+      "id": "net_salary"
+    }
+  },
+  "charges_salariales": {
+    "label": "Charges salariales",
+    "id": "charges_salariales",
+    "type": "group",
+    "group": [
+      {
+        "id": "charges_salariales_csg"
+      },
+      {
+        "id": "charges_salariales_crds"
+      },
+      {
+        "id": "charges_salariales_assurance_maladie"
+      },
+      {
+        "id": "charges_salariales_assurance_vieillesse_plafond"
+      },
+      {
+        "id": "charges_salariales_assurance_vieillesse"
+      },
+      {
+        "id": "charges_salariales_assurance_chomage"
+      },
+      {
+        "id": "charges_salariales_retraite_compl_non_cadre_trA"
+      },
+      {
+        "id": "charges_salariales_retraite_compl_non_cadre_trB"
+      },
+      {
+        "id": "charges_salariales_retraite_compl_cadre_trA"
+      },
+      {
+        "id": "charges_salariales_retraite_compl_cadre_trB"
+      },
+      {
+        "id": "charges_salariales_retraite_compl_cadre_trC"
+      }
+    ]
+  },
+  "charges_salariales_csg": {
+    "label": "Contribution Sociale Généralisée (CSG)",
+    "id": "charges_salariales_csg",
+    "type": "tax"
+  },
+  "charges_salariales_crds": {
+    "label": "Contribution au remboursement de la dette sociale (CRDS)",
+    "id": "charges_salariales_crds",
+    "type": "tax"
+  },
+  "charges_salariales_assurance_maladie": {
+    "label": "Assurance maladie",
+    "id": "charges_salariales_assurance_maladie",
+    "type": "tax"
+  },
+  "charges_salariales_assurance_vieillesse_plafond": {
+    "label": "Assurance vieillesse plafonnée",
+    "id": "charges_salariales_assurance_vieillesse_plafond",
+    "type": "tax"
+  },
+  "charges_salariales_assurance_vieillesse": {
+    "label": "Assurance vieillesse déplafonnée",
+    "id": "charges_salariales_assurance_vieillesse",
+    "type": "tax"
+  },
+  "charges_salariales_assurance_chomage": {
+    "label": "Assurance chômage",
+    "id": "charges_salariales_assurance_chomage",
+    "type": "tax"
+  },
+  "charges_salariales_retraite_compl_non_cadre_trA": {
+    "label": "Retraite complémentaire non cadres. Tranche A",
+    "id": "charges_salariales_retraite_compl_non_cadre_trA",
+    "type": "tax"
+  },
+  "charges_salariales_retraite_compl_non_cadre_trB": {
+    "label": "Retraite complémentaire non cadres. Tranche B",
+    "id": "charges_salariales_retraite_compl_non_cadre_trB",
+    "type": "tax"
+  },
+  "charges_salariales_retraite_compl_cadre_trA": {
+    "label": "Retraite complémentaire cadres. Tranche A",
+    "id": "charges_salariales_retraite_compl_cadre_trA",
+    "type": "tax"
+  },
+  "charges_salariales_retraite_compl_cadre_trB": {
+    "label": "Retraite complémentaire cadres. Tranche B",
+    "id": "charges_salariales_retraite_compl_cadre_trB",
+    "type": "tax"
+  },
+  "charges_salariales_retraite_compl_cadre_trC": {
+    "label": "Retraite complémentaire cadres. Tranche C",
+    "id": "charges_salariales_retraite_compl_cadre_trC",
+    "type": "tax"
+  },
+  "net_salary": {
+    "label": "Salaire net",
+    "id": "net_salary",
+    "type": "salary"
+  },
+  "result": {
+    "label": "Résultat",
+    "id": "result",
+    "type": "group",
+    "group": [
+      {
+        "id": "taxes"
+      }
+    ],
+    "output": {
+      "id": "benefit"
+    }
+  },
+  "taxes": {
+    "label": "Impôts",
+    "id": "taxes",
+    "type": "group",
+    "group": [
+      {
+        "id": "impot_societes"
+      }
+    ]
+  },
+  "impot_societes": {
+    "label": "Impôt sur les sociétés",
+    "id": "impot_societes",
+    "type": "tax"
+  },
+  "benefit": {
+    "label": "Bénéfice net",
+    "id": "benefit_net",
+    "type": "group",
+    "group": [
+      {
+        "id": "dividend"
+      }
+    ],
+    "output": {
+      "id": "treso"
+    }
+  },
+  "dividend": {
+    "label": "Dividendes",
+    "id": "dividend",
+    "type": "group",
+    "group": [
+      {
+        "id": "dividend_tax"
+      }
+    ],
+    "output": {
+      "id": "dividend_net"
+    }
+  },
+  "dividend_tax": {
+    "label": "taxes",
+    "id": "dividend_tax",
+    "type": "tax"
+  },
+  "dividend_net": {
+    "label": "dividendes net",
+    "id": "dividend_net",
+    "type": "dividend"
+  },
+  "treso": {
+    "label": "Trésorerie",
+    "id": "treso",
+    "type": "benefit"
+  }
+}
