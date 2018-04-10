@@ -3,9 +3,11 @@ import yaml from 'gulp-yaml';
 import rename from 'gulp-rename';
 import merge from 'gulp-merge-json';
 import babel from 'gulp-babel';
+import copy from 'gulp-copy';
 
-gulp.task('status', function() {
-  return gulp
+gulp.task('generation', function() {
+
+  const status = gulp
     .src('./data/status/*.yml')
     .pipe(yaml({ space: 2 }))
     .pipe(rename(function (path) {
@@ -14,10 +16,8 @@ gulp.task('status', function() {
       path.basename = 'tree';
     }))
     .pipe(gulp.dest('./src/status/'));
-});
 
-gulp.task('taxes', function() {
-  return gulp
+  const taxes = gulp
     .src('./data/taxes/*.yml')
     .pipe(yaml({ space: 2 }))
     .pipe(merge({
@@ -29,14 +29,22 @@ gulp.task('taxes', function() {
       }
     }))
     .pipe(gulp.dest('./src/taxes/'));
+
+  return [ status, taxes ];
 });
 
-gulp.task('babel', function () {
-  return gulp
-    .src('src/**/*.{js,json}')
+gulp.task('compilation', [ 'generation' ], function () {
+  const es6 = gulp
+    .src('src/**/*.js')
     .pipe(babel())
     .pipe(gulp.dest('dist'));
+
+  const json = gulp
+    .src('src/**/*.json')
+    .pipe(gulp.dest('dist'));
+
+  return [ es6, json ];
 });
 
 
-gulp.task('default', [ 'status', 'taxes', 'babel' ]);
+gulp.task('default', [ 'generation', 'compilation' ]);
